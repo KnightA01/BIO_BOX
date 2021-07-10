@@ -1,34 +1,22 @@
 
 import gzip
-import sys
+
 
 line = ''
-tag = True
+seq_list = [] #储存序列
+score_list= [] #储存得分
 
-
-switch ={
-    150 : gene,
-    63 : score,
-    64 : score,
-    1 : changetag
-}
-
-def gene():
-    print(2)
-    
-def score():
-    print(1)
-
-def changetag():
-    global tag
-    tag = False
-
-
-with gzip.open('L:/Creation/melon-BZR1-3-bHLH/BZR1-3-1_FKDL210116444-1a_1.fq.gz', 'r') as f1, open('out_file.txt', 'w') as f2:
-    while tag:
-        print(1)
-        switch.get(1)()
-#     print(f1.readline().rstrip(). == 150)
-#     while(len(line = f1.readline().rstrip()) == 150):
-#         if f1.readline()
-    
+with gzip.open('L:/Creation/melon-BZR1-3-bHLH/BZR1-3-1_FKDL210116444-1a_1.fq.gz', 'r') as f1:
+    while f1.tell() != 4176912231:
+        line = f1.readline().decode(encoding = 'utf-8') 
+        if line[:1:] == '#': #写入序列
+            score_list.append(line)
+        else :
+            seq_list.append(line)
+            
+        if (len(seq_list) == 10) && (len(score_list) == 10): # 写入文件并清空序列
+            with open('L:/Creation/melon-BZR1-3-bHLH/BZR1-3-1_FKDL210116444-1a_1.fasta'), open('L:/Creation/melon-BZR1-3-bHLH/BZR1-3-1_FKDL210116444-1a_1.txt') as seq_file, score_file:
+                seq_file.write(seq_list)
+                score_file.write(score_list)
+                seq_list = []
+                score_list =[]
